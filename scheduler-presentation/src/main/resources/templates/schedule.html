@@ -1,0 +1,464 @@
+<html lang="en" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+<head>
+</head>
+<body>
+    <section class="section dashboard" layout:fragment="content">
+      <div class="row mb-2">
+        <div class="col d-flex">
+        
+          <button type="button" class="btn-primary ml-auto">Publish</button> 
+          <button type="button" id="btn-auto-schedule" class="btn-primary ml-auto">Auto Schedule</button> 
+        </div>
+      </div>  
+        <div class="row">
+          <div class="col-md-12">
+            <div id="calendar">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Resources
+                    </th>
+                    <th>
+                      Sun (17/7)
+                    </th>
+                    <th>
+                      Mon (18/7)
+                    </th>
+                    <th>
+                      Tue (19/7)
+                    </th>
+                    <th>
+                      Wed (20/7)
+                    </th>
+                    <th>
+                      Thur (21/7)
+                    </th>
+                    <th>
+                      Fri (22/7)
+                    </th>
+                    <th>
+                      Sat (23/7)
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody id="calendar-tbody">
+
+                  <tr>
+                    <td>
+                      <b>Open Shifts</b>
+                      <br>
+                      <span class="lbl-designation">Sr Developer (8/40)</span>
+                    </td>
+                    <td>
+                      <div class="shift shift-blue">
+                        <div class="shift-name collapse-in">9am-5pm</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-open-shift"></i>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Kailash Desiti</b>
+                      <br>
+                      <span class="lbl-designation">Sr Developer (8/40)</span>
+                    </td>
+                    <td>
+                      <div class="shift shift-blue">
+                        <div class="shift-name collapse-in">9am-5pm</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Rahul Yadav</b>
+                      <br>
+                      <span class="lbl-designation">Developer (16/40)</span>
+                    </td>
+                    <td>
+                      <div class="shift shift-red">
+                        <div class="shift-name collapse-in">8am-11am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                      <div class="shift shift-green">
+                        <div class="shift-name collapse-in ">1am-5am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                      
+                    </td>
+                    </td>
+                    <td>
+                      <div class="shift shift-blue">
+                        <div class="shift-name collapse-in">9am-5pm</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Deepak Mishra</b>
+                      <br>
+                      <span class="lbl-designation">Accountant (8/20)</span>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shift shift-red">
+                        <div class="shift-name collapse-in">8am-11am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shift shift-red">
+                        <div class="shift-name collapse-in">8am-11am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        <i class="bi bi-plus-circle btn-add-shift"></i>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b>Suresh Podal</b>
+                      <br>
+                      <span class="lbl-designation">Accountant</span> <span class="lbl-full-utilization">(20/20)</span>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shift shift-red">
+                        <div class="shift-name collapse-in">8am-11am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                      <div class="shift shift-green">
+                        <div class="shift-name collapse-in">1am-5am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shift shift-red">
+                        <div class="shift-name collapse-in">8am-11am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                      <div class="shift shift-green">
+                        <div class="shift-name collapse-in">1am-5am</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <div class="shift shift-blue">
+                        <div class="shift-name collapse-in">9am-5pm</div>
+                        <div class="shift-action-buttons collapse" style="color: antiquewhite;">
+                          <i class="bi bi-plus-circle btn-add-shift"></i>
+                          <i class="bi bi-pencil-square"></i>
+                          <i class="bi bi-archive"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <div class="empty-slot">
+                        
+                      </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal fade" id="assignOpenShiftModal" tabindex="-1">
+	      <div class="modal-dialog">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <h5 class="modal-title">Add Open Shift</h5>
+	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	          </div>
+	          <div class="modal-body">
+	            <div class="col-lg-12">
+	              <div class="card">
+	                <div class="card-body">
+	                  
+	
+	                  <form class="row g-3">
+	                    
+	                    <div class="row mb-3">
+	                      <label class="form-label">Shift</label>
+	                      <div class="col-sm-10">
+	                        <select class="form-select" aria-label="Default select example">
+	                          <option selected>Open this select menu</option>
+	                          <option value="1">9:30am-1:45pm</option>
+	                          <option value="2">3:00pm-5:45pm</option>
+	                          <option value="3">2:00pm-4:45pm</option>
+	                          <option value="4">9:30pm-6:30pm</option>
+	                        </select>
+	                      </div>
+	                    </div>
+	
+	                    <div class="row mb-3">
+	                      <label class="form-label">Departments</label>
+	                      <div class="col-sm-10">
+	    
+	                        <div class="form-check">
+	                          <input class="form-check-input" type="checkbox" id="gridCheck1">
+	                          <label class="form-check-label" for="gridCheck1">
+	                            Cleaning
+	                          </label>
+	                        </div>
+	    
+	                        <div class="form-check">
+	                          <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
+	                          <label class="form-check-label" for="gridCheck2">
+	                            Front End
+	                          </label>
+	                        </div>
+	
+	                        <div class="form-check">
+	                          <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
+	                          <label class="form-check-label" for="gridCheck2">
+	                            Accountant
+	                          </label>
+	                        </div>
+	    
+	                      </div>
+	                    </div>
+	
+	                  </form>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	            <button type="button" class="btn btn-primary" id="btn-addtask">Save changes</button>
+	          </div>
+	        </div>
+	      </div>
+    	</div>
+    	
+    	
+    	<div class="modal fade" id="assignShiftModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Assign Shift</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  
+
+                  <form class="row g-3">
+                    <div class="row mb-3">
+                      <div class="col-12">
+                        <label for="taskname" class="form-label">Resource</label>
+                        <input type="hidden" id="hdn-day">
+                        <input type="hidden" id="hdn-empId">
+                        <input type="text" disabled class="form-control" id="txt-empName" value="Kailash Desiti">
+                      </div>
+                    </div>
+                    
+
+                    <div class="row mb-3">
+                      <label class="form-label">Shift</label>
+                      <div class="col-sm-10">
+                        <select id="select-shift" class="form-select" aria-label="Default select example">
+                          <option selected>Open this select menu</option>
+                          <option value="1">9:30am-1:45pm</option>
+                          <option value="2">3:00pm-5:45pm</option>
+                          <option value="3">2:00pm-4:45pm</option>
+                          <option value="4">9:30pm-6:30pm</option>
+                          <option value="4">8:40pm-6:45pm</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btn-assignShift">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+</body>
+</html>

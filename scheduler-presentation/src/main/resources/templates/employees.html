@@ -1,0 +1,42 @@
+<html lang="en" 
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+<head>
+</head>
+
+<body>
+
+	<section class="section dashboard" layout:fragment="content">
+		<div class="row">
+			<div class="col">
+				<button class="btn-primary" id="btn-add-emp">Add Employee</button>
+			</div>
+		</div>
+		
+		<div class="row">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Weekly Working Hrs</th>
+					<th>Mobile No</th>
+					<th>Departments</th>
+				</tr>
+			</thead>
+			<tbody id="emp-table-body">
+				
+			</tbody>
+		</table>
+		</div>
+		
+		
+		
+		
+		<th:block layout:fragment="script">
+			<script src="assets/js/forms/employees.js"></script>
+		</th:block>
+	</section>
+</body>
+</html>
