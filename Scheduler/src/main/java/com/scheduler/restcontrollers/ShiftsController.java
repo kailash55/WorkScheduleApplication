@@ -19,7 +19,7 @@ public class ShiftsController {
 	ShiftService shiftService;
 	
 	@PostMapping
-	public ResponseEntity<?> postShift(@RequestBody ShiftSaveRequest shiftSaveRequest)
+	public ResponseEntity<?> post(@RequestBody ShiftSaveRequest shiftSaveRequest)
 	{
 		Long shiftId = shiftService.saveShift(shiftSaveRequest);
 		return ResponseEntity.ok(shiftId);
