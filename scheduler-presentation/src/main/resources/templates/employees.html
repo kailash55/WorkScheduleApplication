@@ -7,36 +7,131 @@
 
 <body>
 
-	<section class="section dashboard" layout:fragment="content">
-		<div class="row">
-			<div class="col">
-				<button class="btn-primary" id="btn-add-emp">Add Employee</button>
-			</div>
-		</div>
-		
-		<div class="row">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Weekly Working Hrs</th>
-					<th>Mobile No</th>
-					<th>Departments</th>
-				</tr>
-			</thead>
-			<tbody id="emp-table-body">
-				
-			</tbody>
-		</table>
-		</div>
-		
-		
-		
-		
-		<th:block layout:fragment="script">
-			<script src="assets/js/forms/employees.js"></script>
-		</th:block>
-	</section>
+	<div class="container" layout:fragment="content">
+            <div class="clearfix mt-3">
+                <div class="float-start">
+                    <span class="h4 align-top">Employees</span>
+                </div>
+
+                <div class="float-end">
+                    
+                    <div class="float-end ms-3">
+                        <input type="button" class="btn btn-primary align-text-middle" id="btn-add-emp" value="Add Employee"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Contact No
+                        </th>
+                        <th>
+                            Weekly Working Hrs
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Departments
+                        </th>
+                      </tr>
+                    </thead>
+    
+                    <tbody id="calendar-tbody">
+                        <tr>
+                            <td>Shankar Yadav</td>
+                            <td>shankaryadav@gmail.com</td>
+                            <td>8655175520</td>
+                            <td>40</td>
+                            <td>Full Time</td>
+                            <td>Front Desk</td>
+                        </tr>
+
+                        <tr>
+                            <td>Shankar Yadav</td>
+                            <td>shankaryadav@gmail.com</td>
+                            <td>8655175520</td>
+                            <td>40</td>
+                            <td>Full Time</td>
+                            <td>Front Desk</td>
+                        </tr>
+
+                        <tr>
+                            <td>Shankar Yadav</td>
+                            <td>shankaryadav@gmail.com</td>
+                            <td>8655175520</td>
+                            <td>40</td>
+                            <td>Full Time</td>
+                            <td>Front Desk</td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+    </div>
+        
+    <div layout:fragment="modals">
+    	<div class="modal" id="save-employee-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Employee</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+  
+                  <form>
+                    
+                    <div class="mb-3">
+                      <label for="checkedInHrs" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="txt-checkedin-hrs" placeholder="Enter First Name">
+                    </div>
+  
+                    <div class="mb-3">
+                      <label for="checkedInHrs" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Enter Last Name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Role</label>
+                        <select class="form-select" aria-label="Default select example">
+                          <option selected>Select Role</option>
+                          <option value="1">Front Desk</option>
+                          <option value="2">Management</option>
+                          <option value="3">Floor Staff</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Id</label>
+                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Email Id">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="checkedInHrs" class="form-label">Weekly Working Hrs</label>
+                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Working Hours">
+                    </div>
+
+                    
+                  </form>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+        </div>
+  	</div>
+  	
 </body>
 </html>

@@ -36,10 +36,13 @@ public class WeeklyAvailibilityService {
 	@Autowired
 	AssignedShiftRepository assignedShiftRepo;
 	
+	@Autowired
+	UserService userService;
+	
 	public List<WeeklyResourceResponse> getEmployeesAvailibiltyForCurrentWeek()
 	{
 		List<WeeklyResourceResponse> resourcesAvail = new ArrayList<WeeklyResourceResponse>();
-		List<Employee> employees = employeeRepo.findAll();
+		List<Employee> employees = employeeRepo.findAllByOrganizationId(userService.getUsersOrganization().getId());
 		
 		Date weekStartDate = ConversionUtil.localDateToDate(WeekUtil.getStartDateOfCurrentWeek()); 
 		Date weekEndDate = ConversionUtil.localDateToDate(WeekUtil.getEndDateOfCurrentWeek()); 

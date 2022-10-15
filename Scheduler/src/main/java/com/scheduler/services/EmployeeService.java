@@ -44,6 +44,9 @@ public class EmployeeService {
 	@Autowired
 	PositionRepository positionRepo;
 	
+	@Autowired
+	UserService userService;
+	
 	public Long saveEmployee(SaveEmployeeRequest saveEmployeeRequest)
 	{
 		UserDetails userDetails =
@@ -89,6 +92,7 @@ public class EmployeeService {
 	
 	public List<EmployeeDataResponse> getAllEmployees()
 	{
-		return new EmployeeDataResponseMapper().map(employeeRepo.findAll());
+		Long organizationId = userService.getUsersOrganization().getId();
+		return new EmployeeDataResponseMapper().map(employeeRepo.findAllByOrganizationId(organizationId));
 	}
 }
