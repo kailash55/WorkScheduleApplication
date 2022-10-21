@@ -14,7 +14,7 @@ $(document).ready(function(){
 			success: function(response)
 			{
 				Cookies.set('AUTH_TOKEN_COOKIE', response.token);
-				window.location.href = "/schedule"
+				window.location.href = "schedule"
 			},
 			error: function(a,b,c)
 			{
