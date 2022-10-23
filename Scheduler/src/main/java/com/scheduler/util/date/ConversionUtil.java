@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 public class ConversionUtil {
 	public static Date localDateToDate(LocalDate localDate)
@@ -26,5 +28,15 @@ public class ConversionUtil {
 		return strDate;
 	}
 	
+	public static LocalDate fromStringToLocalDate(String strDate)
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
+		LocalDate dateTime = LocalDate.parse(strDate, formatter);
+		return dateTime;
+	}
 	
+	public static Date fromStringToDate(String strDate)
+	{
+		return localDateToDate(fromStringToLocalDate(strDate));
+	}
 }	

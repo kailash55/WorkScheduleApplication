@@ -2,6 +2,7 @@ package com.scheduler.util.date;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class WeekUtil {
 	
@@ -29,6 +30,18 @@ public class WeekUtil {
 	    }
 	    
 	    return saturday;
+	}
+	
+	public static LocalDate getLocalDateFromDayForCurrentWeek(Integer day)
+	{
+		LocalDate startDateOfCurrentWeek = getStartDateOfCurrentWeek();
+		return DateOperationsUtil.addDaysToDate(day-1, startDateOfCurrentWeek);
+	}
+	
+	public static Date getDateFromDayForCurrentWeek(Integer day)
+	{
+		LocalDate startDateOfCurrentWeek = getStartDateOfCurrentWeek();
+		return ConversionUtil.localDateToDate(DateOperationsUtil.addDaysToDate(day-1, startDateOfCurrentWeek));
 	}
 
 }

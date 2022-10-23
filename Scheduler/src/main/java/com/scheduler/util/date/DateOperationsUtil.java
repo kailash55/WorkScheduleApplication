@@ -11,4 +11,10 @@ public class DateOperationsUtil {
 		LocalDate addedDate = localDate.plusDays(numberOfDays);
 		return ConversionUtil.localDateToDate(addedDate);
 	}
+	
+	public static LocalDate addDaysToDate(int numberOfDays, LocalDate localDate)
+	{
+		LocalDate addedDate = localDate.plusDays(numberOfDays);
+		return addedDate;
+	}
 }

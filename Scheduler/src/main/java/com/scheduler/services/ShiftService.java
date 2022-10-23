@@ -26,6 +26,9 @@ public class ShiftService {
 	UserRepository userRepo;
 	
 	@Autowired
+	UserService userService;
+	
+	@Autowired
 	PositionRepository positionRepo;
 	
 	public Long saveShift(ShiftSaveRequest saveShiftRequest)
@@ -55,7 +58,8 @@ public class ShiftService {
 	
 	public List<ShiftListResponseItem> getAllShifts()
 	{
-		List<Shift> shiftEntityList = shiftRepo.findAll();
+		Long organizationId = userService.getUsersOrganization().getId();
+		List<Shift> shiftEntityList = shiftRepo.findAllByOrganizationId(organizationId);
 		List<ShiftListResponseItem> shiftListResponse = new ArrayList<ShiftListResponseItem>();
 		
 		for(Shift shift: shiftEntityList)

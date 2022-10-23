@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.scheduler.models.Organization;
+import com.scheduler.models.User;
 import com.scheduler.repository.UserRepository;
 
 @Service
@@ -20,5 +21,12 @@ public class UserService {
 				(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userRepo.findByUsername
 				(userDetails.getUsername()).get().getOrganization();
+	}
+	
+	public User getLoggedInUser()
+	{
+		UserDetails userDetails =
+				(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userRepo.findByUsername(userDetails.getUsername()).get();
 	}
 }

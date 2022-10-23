@@ -23,6 +23,9 @@ public class PositionService {
 	PositionRepository positionRepo;
 	
 	@Autowired
+	UserService userService;
+	
+	@Autowired
 	UserRepository userRepo;
 	
 	public Long savePostion(SavePositionRequest savePositionRequest)
@@ -47,7 +50,8 @@ public class PositionService {
 	
 	public List<PositionListItem> getPositionsList()
 	{
-		List<Position> positionEntityList = positionRepo.findAll();
+		Long organizationId = userService.getUsersOrganization().getId();
+		List<Position> positionEntityList = positionRepo.findAllByOrganizationId(organizationId);
 		
 		List<PositionListItem> positionListResponse 
 		= new PositionResponseMapper().map(positionEntityList);

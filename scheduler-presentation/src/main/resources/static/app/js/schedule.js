@@ -1,23 +1,255 @@
+var shifts = []
+var startTimePicker = null
+var resourcesData = []
+
+var formTypeSaveFunctions = {
+	"add-shift": ()=>saveShift(),
+	"add-availability": ()=>saveAvailablity()
+}
+
 $(document).ready(function(){
-	
-    $(".availibility-icon").click(function(){
-		alert("clicked")
-        resourceEditOnClick()
-    })
     
-    //loadResourceData()
+    loadResourceData()
+    loadPositionsDropdown()
+    loadShifts()
+    
+    $('#select-positions').on('change', function() {
+  		populateShiftForPositions(this.value)
+	});
+	
+	$("#add-availability-form").hide()
+	
+	startTimePicker = $('.timepicker').timepicker({
+	    timeFormat: 'h:mm p',
+	    interval: 30,
+	    dynamic: false,
+	    dropdown: true,
+	    scrollbar: true,
+	    zindex: 9999999
+	});
+	
+	$("#btn-save").click(function(){
+		save()
+	})
 })
 
-function resourceEditOnClick()
+function getRadioButtonGroupValue(name)
 {
+	let values = []
+	$('input[name="'+name+'"]:checked').each(function() {
+   		values.push(this.value)
+	});
+	return values[0]
+}
+
+function getSelectedCheckboxValues(name)
+{
+	let values = []
+	$('input[name="'+name+'"]:checked').each(function() {
+   		values.push(this.value)
+	});
+	return values
+}
+
+function save()
+{
+	let formType = getRadioButtonGroupValue("form-type")
+	formTypeSaveFunctions[formType]()
+}
+
+function saveAvailablity()
+{
+	let formData = {
+    "employeeId": parseInt($("#hdn-empId").val()),
+    "startTimeHour" : parseTimeString($("#txt-start-time").val())[0],
+    "startTimeMinute": parseTimeString($("#txt-start-time").val())[1],
+    "endTimeHour": parseTimeString($("#txt-end-time").val())[0],
+    "endTimeMinute": parseTimeString($("#txt-end-time").val())[1],
+    "days": getSelectedCheckboxValues("avail-weekDay").map(x=> parseInt(x))
+	}
+	
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl + "employee-availablility",
+			type:"POST",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(formData),
+			success: function(response)
+			{
+				loadResourceData()
+			},
+			error: function(a,b,c)
+			{
+				console.log(a)
+			}
+	})
+}
+
+function saveShift()
+{
+	debugger;
+	let formData = {
+    "employeeId": parseInt($("#hdn-empId").val()),
+    "shiftId": parseInt($("#select-shift").val()),
+    "days": getSelectedCheckboxValues("weekDay").map(x=> parseInt(x))
+	}
+	
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl + "assigned-shifts",
+			type:"POST",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(formData),
+			success: function(response)
+			{
+				loadResourceData()
+			},
+			error: function(a,b,c)
+			{
+				console.log(a)
+			}
+	})
+}
+
+function parseTimeString(strTime)
+{
+	let split1 = strTime.split(" ")
+	let timeSplit = split1[0].split(":")
+	let hr = 0;
+	if(split1[1] == "AM")
+	{
+		hr = parseInt(timeSplit[0])
+	}
+	else
+	{
+		hr = 12 + parseInt(timeSplit[0])
+	}
+	
+	return [hr, parseInt(timeSplit[1])]
+}
+function toggleForm(type)
+{
+	$("#add-shift-form").hide()
+	$("#add-availability-form").hide()
+	if(type==1)
+	{
+		$("#add-shift-form").show()
+	}
+	else
+	{
+		$("#add-availability-form").show()
+	}
+}
+
+function initEvents()
+{
+	$(".availibility-icon").click(function(e){        
+        resourceEditOnClick(parseInt($(e.currentTarget).data("empid")))
+    })
+}
+
+function formatNumber(number)
+{
+	let formattedNumber = number.toLocaleString('en-US', {
+	    minimumIntegerDigits: 2,
+	    useGrouping: false
+  	})
+  	return formattedNumber
+}
+
+function getDayPeriod(hour)
+{
+	return hour>=12 ? "pm":"am"
+}
+
+function get12HrTime(hour)
+{
+	if(hour > 12)
+		hour = hour % 12
+	return formatNumber(hour)
+}
+
+function resourceEditOnClick(empId)
+{
+	let resource = resourcesData.filter(x=> x.empId == empId)[0]
+	$("#hdn-empId").val(resource.empId)
+	$("#add-shift-empname-label").html(resource.empName)
     $("#add-shift-modal").modal('show')
+}
+
+function loadPositionsDropdown()
+{
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl +"positions",
+			type:"GET",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			success: function(response)
+			{
+				populatePositionsDropdown(response)
+			},
+			error: function(a,b,c)
+			{
+				console.log(a)
+			}
+	})
+}
+
+function populateShiftForPositions(positionId)
+{
+	let positionShifts = shifts.filter(x=> x.positionId == positionId)
+	$("#select-shift").html("")
+	let shiftsHtml = '<option selected value="0">Select Time</option>'
+	for(let i=0; i<positionShifts.length; i++)
+	{
+		let shiftRow = positionShifts[i]
+		let shiftTime = + get12HrTime(shiftRow.startTimeHour) + ":" +formatNumber(shiftRow.startTimeMinute)
+                            + getDayPeriod(shiftRow.startTimeHour)
+							+ " - " 
+							+ get12HrTime(shiftRow.endTimeHour) + ":" + formatNumber(shiftRow.endTimeMinute)
+							+ getDayPeriod(shiftRow.endTimeHour)
+		shiftsHtml += '<option value="'+shiftRow.id+'">'+ shiftTime +'</option>'
+	}
+	$("#select-shift").append(shiftsHtml)
+}
+
+function loadShifts()
+{
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl +"shifts",
+			type:"GET",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			success: function(response)
+			{
+				shifts = response
+			},
+			error: function(a,b,c)
+			{
+				console.log(a)
+			}
+	})
+}
+
+function populatePositionsDropdown(positions)
+{
+	for(let i=0; i<positions.length; i++)
+	{
+		let position = positions[i]
+		let positionHtml = '<option value="'+ position.id +'">' + position.name +'</option>'
+		$("#select-positions").append(positionHtml)
+	}
 }
 
 function loadResourceData()
 {
 	let token = Cookies.get('AUTH_TOKEN_COOKIE');
 	$.ajax({
-			url: "http://localhost:8085/weeklyresources",
+			url: window.serviceUrl + "weeklyresources",
 			type:"GET",
 			"headers": {"Authorization": "Bearer "+token},
 			contentType: "application/json; charset=utf-8",
@@ -40,7 +272,7 @@ function setResourcesListData(resources)
 
 function renderTable()
 {
-	$("#new-calendar-body").html("")
+	$("#calendar-tbody").html("")
 	for(let i=0; i<resourcesData.length; i++)
 	{
 		let resource = resourcesData[i]
@@ -49,7 +281,7 @@ function renderTable()
 		
 		row += "<td>"
         row += "<b>" + resource.empName + "</b>"
-        row += '<i class="fa-solid fa-pencil availibility-icon"></i>'
+        row += '<i class="fa-solid fa-pencil availibility-icon" data-empid="'+resource.empId+'"></i>'
         row += '<br>'
         row += '<span class="lbl-designation">' + 'Sr Developer' + '(' + resource.assignedHours +'/' + resource.totalWorkingHours + ')</span>'
         row += '</td>'
@@ -65,9 +297,11 @@ function renderTable()
 				{			
 					row += '<div class="shift availibility-info">'
                             +'<div class="shift-name collapse-in">'
-                            + daySlots.availableSlots[k].startTimeHour + ":" +daySlots.availableSlots[k].startTimeMinute
-							+ "-" 
-							+ daySlots.availableSlots[k].endTimeHour + ":" +daySlots.availableSlots[k].endTimeMinute
+                            + get12HrTime(daySlots.availableSlots[k].startTimeHour) + ":" +formatNumber(daySlots.availableSlots[k].startTimeMinute)
+                            + getDayPeriod(daySlots.availableSlots[k].startTimeHour)
+							+ " - " 
+							+ get12HrTime(daySlots.availableSlots[k].endTimeHour) + ":" + formatNumber(daySlots.availableSlots[k].endTimeMinute)
+							+ getDayPeriod(daySlots.availableSlots[k].endTimeHour)
 							+  '</div>'
                             + '<div class="shift-action-buttons collapse" style="color: antiquewhite;">'
                             + '<i class="bi bi-plus-circle btn-add-shift"></i>'
@@ -84,14 +318,20 @@ function renderTable()
             for(let k=0; k<daySlots.assignedShifts.length; k++)
 			{
 				let shift = daySlots.assignedShifts[k]
-				row += '<div class="shift shift-red">'
-                row += '<div class="shift-name collapse-in">'+shift.startTimeHour+':'+shift.startTimeMinute+' - ' + shift.endTimeHour + ':' + shift.endTimeMinute +'</div>'
-                row += '<div class="shift-action-buttons collapse" style="color: antiquewhite;">'
-                row += '<i class="bi bi-plus-circle btn-add-shift"></i>'
-                row += '<i class="bi bi-pencil-square"></i>'
-                row += '<i class="bi bi-archive"></i>'
-                row += '</div>'
-                row += '</div>'
+                
+                row += '<div class="shift assigned-shift-info">'
+	            			+ get12HrTime(shift.startTimeHour) + ":" +formatNumber(shift.startTimeMinute)
+                            + getDayPeriod(shift.startTimeHour)
+							+ " - " 
+							+ get12HrTime(shift.endTimeHour) + ":" + formatNumber(shift.endTimeMinute)
+							+ getDayPeriod(shift.endTimeHour)
+							+ '</div>'
+	                        + '<div class="shift-action-buttons collapse" style="color: antiquewhite;">'
+	                        + '<i class="bi bi-plus-circle btn-add-shift"></i>'
+	                        + '<i class="bi bi-pencil-square"></i>'
+	                        + '<i class="bi bi-archive"></i>'
+	                        + '</div>'
+	              			+ '</div>'
 			}
 			
 			row += "</td>"

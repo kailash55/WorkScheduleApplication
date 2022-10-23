@@ -16,7 +16,7 @@
                 <div class="float-end">
                     
                     <div class="float-end ms-3">
-                        <input type="button" class="btn btn-primary align-text-middle" id="btn-add-emp" value="Add Employee"/>
+                        <input type="button" class="btn btn-primary align-text-middle" id="btn-add-emp" value="Add Shift"/>
                     </div>
                 </div>
             </div>
@@ -79,11 +79,11 @@
     </div>
         
     <div layout:fragment="modals">
-    	<div class="modal" id="save-employee-modal" tabindex="-1">
+    	<div class="modal" id="save-shift-modal" tabindex="-1">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Employee</h5>
+                  <h5 class="modal-title">Shift</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -91,12 +91,12 @@
                   <form>
                     
                     <div class="mb-3">
-                      <label for="checkedInHrs" class="form-label">First Name</label>
+                      <label for="checkedInHrs" class="form-label">Start Time</label>
                       <input type="text" class="form-control" id="txt-checkedin-hrs" placeholder="Enter First Name">
                     </div>
   
                     <div class="mb-3">
-                      <label for="checkedInHrs" class="form-label">Last Name</label>
+                      <label for="checkedInHrs" class="form-label">End Time</label>
                       <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Enter Last Name">
                     </div>
 
@@ -111,15 +111,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Id</label>
+                        <label for="email" class="form-label">Description</label>
                         <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Email Id">
                     </div>
-
-                    <div class="mb-3">
-                        <label for="checkedInHrs" class="form-label">Weekly Working Hrs</label>
-                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Working Hours">
-                    </div>
-
                     
                   </form>
                   
