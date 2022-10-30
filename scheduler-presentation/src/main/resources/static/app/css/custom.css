@@ -82,3 +82,41 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
   border-bottom-right-radius: 6px;
 }
+
+
+.text-center {
+    width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+.spinner-border {
+    display: block;
+    position: fixed;
+    top: calc(50% - (58px / 2));  
+    right: calc(50% - (58px / 2));
+    color: red;
+}
+
+#backdrop {
+  position:absolute;
+  top:0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: rgb(0,0,0,0.2);
+}
+
+.alert {
+  position:absolute;
+  top:0;
+  z-index: 9999;
+  width: 100vw;
+}
+
+.card{
+	height:120px;
+	width:80%;
+	margin-bottom:15px;
+	padding: 20px
+}

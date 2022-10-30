@@ -14,7 +14,11 @@ $(document).ready(function(){
     loadShifts()
     
     $('#select-positions').on('change', function() {
-  		populateShiftForPositions(this.value)
+  		populateShiftForPositions(this.value, "select-shift")
+	});
+	
+	$('#open-shift-select-positions').on('change', function() {
+  		populateShiftForPositions(this.value, "open-shift-select-shift")
 	});
 	
 	$("#add-availability-form").hide()
@@ -31,7 +35,46 @@ $(document).ready(function(){
 	$("#btn-save").click(function(){
 		save()
 	})
+	
+	$("#btn-save-open-shift").click(function(){
+		saveOpenShift()
+	})
+	
+	$("#btn-auto-schedule").click(function(){
+		autoSchedule()
+	})
 })
+
+function autoSchedule()
+{
+	$("#backdrop").show()
+	
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl + "autoschedule",
+			type:"POST",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			success: function()
+			{
+				$("#backdrop").hide()
+				loadResourceData()
+			},
+			error: function(a,b,c)
+			{
+				$("#backdrop").hide()
+				console.log(a)
+			}
+	})
+}
+
+function resetForms()
+{
+	$('input[type=checkbox]').prop('checked', false);
+	$('.timepicker').val("")
+	$('input[type=text], textarea').val('')
+	$('select').val('0');
+}
 
 function getRadioButtonGroupValue(name)
 {
@@ -59,6 +102,7 @@ function save()
 
 function saveAvailablity()
 {
+	$("#backdrop").show()
 	let formData = {
     "employeeId": parseInt($("#hdn-empId").val()),
     "startTimeHour" : parseTimeString($("#txt-start-time").val())[0],
@@ -77,10 +121,42 @@ function saveAvailablity()
 			data: JSON.stringify(formData),
 			success: function(response)
 			{
+				$("#backdrop").hide()
+				loadResourceData()
+				resetForms()
+			},
+			error: function(a,b,c)
+			{
+				$("#backdrop").hide()
+				alert(a.responseText)
+			}
+	})
+}
+
+function saveOpenShift()
+{
+	$("#backdrop").show()
+	let formData = {
+    "shiftId": parseInt($("#open-shift-select-shift").val()),
+    "days": getSelectedCheckboxValues("open-shift-weekDay").map(x=> parseInt(x))
+	}
+	
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl + "open-shifts",
+			type:"POST",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(formData),
+			success: function(response)
+			{
+				$("#backdrop").hide()
+				resetForms()
 				loadResourceData()
 			},
 			error: function(a,b,c)
 			{
+				$("#backdrop").hide()
 				console.log(a)
 			}
 	})
@@ -88,7 +164,7 @@ function saveAvailablity()
 
 function saveShift()
 {
-	debugger;
+	$("#backdrop").show()
 	let formData = {
     "employeeId": parseInt($("#hdn-empId").val()),
     "shiftId": parseInt($("#select-shift").val()),
@@ -104,11 +180,14 @@ function saveShift()
 			data: JSON.stringify(formData),
 			success: function(response)
 			{
+				$("#backdrop").hide()
+				resetForms()
 				loadResourceData()
 			},
 			error: function(a,b,c)
 			{
-				console.log(a)
+				$("#backdrop").hide()
+				alert(a.responseText)
 			}
 	})
 }
@@ -171,8 +250,18 @@ function get12HrTime(hour)
 	return formatNumber(hour)
 }
 
+function showOpenShiftModal()
+{
+	$("#add-open-shift-modal").modal('show')
+}
+
 function resourceEditOnClick(empId)
 {
+	if(empId==-1)
+	{
+		showOpenShiftModal()
+		return
+	}
 	let resource = resourcesData.filter(x=> x.empId == empId)[0]
 	$("#hdn-empId").val(resource.empId)
 	$("#add-shift-empname-label").html(resource.empName)
@@ -198,10 +287,10 @@ function loadPositionsDropdown()
 	})
 }
 
-function populateShiftForPositions(positionId)
+function populateShiftForPositions(positionId, selectId)
 {
 	let positionShifts = shifts.filter(x=> x.positionId == positionId)
-	$("#select-shift").html("")
+	$("#"+selectId).html("")
 	let shiftsHtml = '<option selected value="0">Select Time</option>'
 	for(let i=0; i<positionShifts.length; i++)
 	{
@@ -213,7 +302,7 @@ function populateShiftForPositions(positionId)
 							+ getDayPeriod(shiftRow.endTimeHour)
 		shiftsHtml += '<option value="'+shiftRow.id+'">'+ shiftTime +'</option>'
 	}
-	$("#select-shift").append(shiftsHtml)
+	$("#"+selectId).append(shiftsHtml)
 }
 
 function loadShifts()
@@ -242,11 +331,13 @@ function populatePositionsDropdown(positions)
 		let position = positions[i]
 		let positionHtml = '<option value="'+ position.id +'">' + position.name +'</option>'
 		$("#select-positions").append(positionHtml)
+		$("#open-shift-select-positions").append(positionHtml)
 	}
 }
 
 function loadResourceData()
 {
+	$("#backdrop").show()
 	let token = Cookies.get('AUTH_TOKEN_COOKIE');
 	$.ajax({
 			url: window.serviceUrl + "weeklyresources",
@@ -255,10 +346,12 @@ function loadResourceData()
 			contentType: "application/json; charset=utf-8",
 			success: function(response)
 			{
+				$("#backdrop").hide()
 				setResourcesListData(response)
 			},
 			error: function(a,b,c)
 			{
+				$("#backdrop").hide()
 				console.log(a)
 			}
 	})
@@ -270,12 +363,58 @@ function setResourcesListData(resources)
 	renderTable()
 }
 
+function renderOpenShiftRow(resource)
+{
+	let row = "<tr>";
+		
+		row += "<td>"
+        row += "<b>" + "Open Shifts" + "</b>"
+        row += '<i class="fa-solid fa-pencil availibility-icon" data-empid="'+resource.empId+'"></i>'
+        row += '</td>'
+        
+        for(let j=1; j<=7; j++)
+		{
+			let daySlots = resource.weeklyAvailibilitySlots[j]
+			
+			row += "<td>"
+            
+            for(let k=0; k<daySlots.assignedShifts.length; k++)
+			{
+				let shift = daySlots.assignedShifts[k]
+                
+                row += '<div class="shift assigned-shift-info">'
+	            			+ get12HrTime(shift.startTimeHour) + ":" +formatNumber(shift.startTimeMinute)
+                            + getDayPeriod(shift.startTimeHour)
+							+ " - " 
+							+ get12HrTime(shift.endTimeHour) + ":" + formatNumber(shift.endTimeMinute)
+							+ getDayPeriod(shift.endTimeHour)
+							+ '</div>'
+	                        + '<div class="shift-action-buttons collapse" style="color: antiquewhite;">'
+	                        + '<i class="bi bi-plus-circle btn-add-shift"></i>'
+	                        + '<i class="bi bi-pencil-square"></i>'
+	                        + '<i class="bi bi-archive"></i>'
+	                        + '</div>'
+	              			+ '</div>'
+			}
+			
+			row += "</td>"
+		}
+		$("#calendar-tbody").prepend(row)
+}
+
 function renderTable()
 {
 	$("#calendar-tbody").html("")
 	for(let i=0; i<resourcesData.length; i++)
 	{
+		
 		let resource = resourcesData[i]
+		
+		if(resource.empId == -1)
+		{
+			renderOpenShiftRow(resource)
+			continue;
+		}
 		
 		let row = "<tr>";
 		
@@ -283,7 +422,7 @@ function renderTable()
         row += "<b>" + resource.empName + "</b>"
         row += '<i class="fa-solid fa-pencil availibility-icon" data-empid="'+resource.empId+'"></i>'
         row += '<br>'
-        row += '<span class="lbl-designation">' + 'Sr Developer' + '(' + resource.assignedHours +'/' + resource.totalWorkingHours + ')</span>'
+        row += '<span class="lbl-designation">' + resource.designation + '(' + resource.assignedHours +'/' + resource.totalWorkingHours + ')</span>'
         row += '</td>'
 		
 		for(let j=1; j<=7; j++)

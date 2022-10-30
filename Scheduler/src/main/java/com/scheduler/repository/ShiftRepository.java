@@ -13,4 +13,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long>{
 	public List<Shift> findAllByPositionId(Long positionId);
 	
 	public List<Shift> findAllByOrganizationId(Long organizationId);
+	
+	public List<Shift> findAllByOrganizationIdOrderByPositionId(Long organizationId);
 }
