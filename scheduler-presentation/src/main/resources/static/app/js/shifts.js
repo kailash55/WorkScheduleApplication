@@ -7,7 +7,7 @@ $(document).ready(function(){
 		saveShift()
 	})
     
-    loadShifts()
+    loadShiftsDropdown()
 })
 
 function resetFormsShift()
@@ -57,7 +57,7 @@ function saveShift()
 	})
 }
 
-function loadShifts()
+function loadShiftsDropdown()
 {
 	$("#backdrop").show()
 	let token = Cookies.get('AUTH_TOKEN_COOKIE');

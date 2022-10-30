@@ -1,5 +1,8 @@
 package com.scheduler.restcontrollers;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,7 @@ public class AssignedShiftsController {
 	AssignedShiftService assignedShiftService;
 	
 	@PostMapping
-	public ResponseEntity<?> assignShift(@RequestBody AssignShiftRequest assignShiftRequest)
+	public ResponseEntity<?> assignShift(@RequestBody AssignShiftRequest assignShiftRequest) throws IOException
 	{
 		try {
 			List<Long> ids = assignedShiftService.assignShifts(assignShiftRequest);
@@ -29,7 +32,13 @@ public class AssignedShiftsController {
 		}
 		catch(Exception e)
 		{
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			String s = sw.toString();
+			sw.close();
+			pw.close();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() +" : "+ s);
 		}
 	}
 	

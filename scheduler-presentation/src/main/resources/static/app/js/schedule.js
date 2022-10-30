@@ -187,6 +187,7 @@ function saveShift()
 			error: function(a,b,c)
 			{
 				$("#backdrop").hide()
+				console.log(a.responseText)
 				alert(a.responseText)
 			}
 	})
