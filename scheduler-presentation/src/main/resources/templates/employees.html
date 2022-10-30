@@ -38,9 +38,6 @@
                             Weekly Working Hrs
                         </th>
                         <th>
-                            Type
-                        </th>
-                        <th>
                             Departments
                         </th>
                       </tr>
@@ -92,32 +89,43 @@
                     
                     <div class="mb-3">
                       <label for="checkedInHrs" class="form-label">First Name</label>
-                      <input type="text" class="form-control" id="txt-checkedin-hrs" placeholder="Enter First Name">
+                      <input type="text" class="form-control" id="txt-first-name" placeholder="Enter First Name">
                     </div>
   
                     <div class="mb-3">
                       <label for="checkedInHrs" class="form-label">Last Name</label>
-                      <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Enter Last Name">
+                      <input type="text" class="form-control" id="txt-last-name" placeholder="Enter Last Name">
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label for="checkedInHrs" class="form-label">Username</label>
+                      <input type="text" class="form-control" id="txt-username" placeholder="Enter Username">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Id</label>
+                        <input type="text" class="form-control" id="txt-email" placeholder="Email Id">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="txt-phone" placeholder="Phone Number">
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Role</label>
-                        <select class="form-select" aria-label="Default select example">
-                          <option selected>Select Role</option>
-                          <option value="1">Front Desk</option>
-                          <option value="2">Management</option>
-                          <option value="3">Floor Staff</option>
+                        <select id="select-role" class="form-select" aria-label="Default select example">
+                          <option selected value="0">Select Role</option>
+                          <option value="6">Front Desk</option>
+                          <option value="7">Supervisor</option>
+                          <option value="8">Manager</option>
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Id</label>
-                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Email Id">
-                    </div>
 
                     <div class="mb-3">
                         <label for="checkedInHrs" class="form-label">Weekly Working Hrs</label>
-                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Working Hours">
+                        <input type="numeric" class="form-control" id="txt-working-hrs" placeholder="Working Hours">
                     </div>
 
                     
@@ -126,7 +134,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Submit</button>
+                  <button id="saveEmployee" type="button" class="btn btn-primary">Submit</button>
                 </div>
               </div>
             </div>

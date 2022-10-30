@@ -38,9 +38,12 @@ public class AutoScheduleService {
 	@Autowired
 	OrganizationSpecificEntityService orgSpecificEntityService;
 	
+	@Autowired
+	UserService userService;
+	
 	public void autoScheduleAll(Date weekStartDate, Date weekEndDate)
 	{
-		List<Employee> employees = employeeRepo.findAll();
+		List<Employee> employees = employeeRepo.findAllByOrganizationId(userService.getUsersOrganization().getId());
 		
 		for(int i=0; i<7; i++)
 		{

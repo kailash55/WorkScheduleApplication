@@ -16,9 +16,11 @@ import com.scheduler.apiPayloads.responses.WeeklyResourceResponse;
 import com.scheduler.models.AssignedShift;
 import com.scheduler.models.Employee;
 import com.scheduler.models.EmployeeAvailibility;
+import com.scheduler.models.OpenShift;
 import com.scheduler.repository.AssignedShiftRepository;
 import com.scheduler.repository.EmployeeAvailabilityRepository;
 import com.scheduler.repository.EmployeeRepository;
+import com.scheduler.repository.OpenShiftRepository;
 import com.scheduler.util.date.ConversionUtil;
 import com.scheduler.util.date.DateOperationsUtil;
 import com.scheduler.util.date.WeekUtil;
@@ -35,6 +37,9 @@ public class WeeklyAvailibilityService {
 	
 	@Autowired
 	AssignedShiftRepository assignedShiftRepo;
+	
+	@Autowired
+	OpenShiftRepository openShiftRepo;
 	
 	@Autowired
 	UserService userService;
@@ -55,6 +60,7 @@ public class WeeklyAvailibilityService {
 			weeklyResource.setEmpId(employee.getId());
 			weeklyResource.setEmpName(employee.getFirstName() + " " + employee.getLastName());
 			weeklyResource.setTotalWorkingHours(employee.getWeeklyWorkingHours());
+			weeklyResource.setDesignation(employee.getPositions().get(0).getName());
 			Integer assignedWorkHrs = 0;
 			
 			HashMap<Integer, ResourceAvailibilityResponse> weeklyAvailibilitySlots = new HashMap<Integer, ResourceAvailibilityResponse>();
@@ -117,6 +123,46 @@ public class WeeklyAvailibilityService {
 			
 			
 		}
+		
+		//For open shifts
+		WeeklyResourceResponse weeklyResource = new WeeklyResourceResponse();
+		weeklyResource.setEmpId(-1l);
+		weeklyResource.setEmpName("openshift");
+		weeklyResource.setTotalWorkingHours(0);
+		
+		HashMap<Integer, ResourceAvailibilityResponse> weeklyAvailibilitySlots = new HashMap<Integer, ResourceAvailibilityResponse>();
+		
+		for(int i=1; i<=7; i++) {
+			Date currentDate = DateOperationsUtil.addDaysToDate(i-1, weekStartDate);
+			ResourceAvailibilityResponse resourceDayAvailibility = new ResourceAvailibilityResponse();
+			resourceDayAvailibility.setWeekDay(i);
+			resourceDayAvailibility.setDate(ConversionUtil.toString(currentDate));
+			resourceDayAvailibility.setOnLeave(false);
+			
+			List<ShiftListResponseItem> assignedShiftResponseList = new ArrayList<ShiftListResponseItem>();
+			List<OpenShift> assignedShifts = openShiftRepo.findAllByDate(currentDate);
+			
+			for(OpenShift assignedShift : assignedShifts)
+			{
+				ShiftListResponseItem assignedShiftResponseItem = new ShiftListResponseItem();
+				assignedShiftResponseItem.setId(assignedShift.getShift().getId());
+				assignedShiftResponseItem.setStartTimeHour(assignedShift.getShift().getStartTimeHour());
+				assignedShiftResponseItem.setEndTimeHour(assignedShift.getShift().getEndTimeHour());
+				assignedShiftResponseItem.setStartTimeMinute(assignedShift.getShift().getStartTimeMinute());
+				assignedShiftResponseItem.setEndTimeMinute(assignedShift.getShift().getEndTimeMinute());
+				assignedShiftResponseItem.setNotes(assignedShift.getShift().getNotes());
+				assignedShiftResponseItem.setPositionId(assignedShift.getShift().getPosition().getId());
+				assignedShiftResponseItem.setPositionName(assignedShift.getShift().getPosition().getName());
+				assignedShiftResponseList.add(assignedShiftResponseItem);
+				
+			}
+			resourceDayAvailibility.setAssignedShifts(assignedShiftResponseList);
+			weeklyAvailibilitySlots.put(i, resourceDayAvailibility);
+		}
+		
+		weeklyResource.setWeeklyAvailibilitySlots(weeklyAvailibilitySlots);
+		weeklyResource.setAssignedHours(0);
+		resourcesAvail.add(weeklyResource);
 		
 		return resourcesAvail;
 	}

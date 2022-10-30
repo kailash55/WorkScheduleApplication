@@ -10,13 +10,13 @@
 	<div class="container" layout:fragment="content">
             <div class="clearfix mt-3">
                 <div class="float-start">
-                    <span class="h4 align-top">Employees</span>
+                    <span class="h4 align-top">Shifts</span>
                 </div>
 
                 <div class="float-end">
                     
                     <div class="float-end ms-3">
-                        <input type="button" class="btn btn-primary align-text-middle" id="btn-add-emp" value="Add Shift"/>
+                        <input type="button" class="btn btn-primary align-text-middle" id="btn-add-shift" value="Add Shift"/>
                     </div>
                 </div>
             </div>
@@ -26,64 +26,25 @@
                     <thead>
                       <tr>
                         <th>
-                            Name
+                            Shift Timing
                         </th>
                         <th>
-                            Email
-                        </th>
-                        <th>
-                            Contact No
-                        </th>
-                        <th>
-                            Weekly Working Hrs
-                        </th>
-                        <th>
-                            Type
-                        </th>
-                        <th>
-                            Departments
+                            Designation
                         </th>
                       </tr>
                     </thead>
     
-                    <tbody id="employees-tbody">
-                        <tr>
-                            <td>Shankar Yadav</td>
-                            <td>shankaryadav@gmail.com</td>
-                            <td>8655175520</td>
-                            <td>40</td>
-                            <td>Full Time</td>
-                            <td>Front Desk</td>
-                        </tr>
-
-                        <tr>
-                            <td>Shankar Yadav</td>
-                            <td>shankaryadav@gmail.com</td>
-                            <td>8655175520</td>
-                            <td>40</td>
-                            <td>Full Time</td>
-                            <td>Front Desk</td>
-                        </tr>
-
-                        <tr>
-                            <td>Shankar Yadav</td>
-                            <td>shankaryadav@gmail.com</td>
-                            <td>8655175520</td>
-                            <td>40</td>
-                            <td>Full Time</td>
-                            <td>Front Desk</td>
-                        </tr>
+                    <tbody id="shift-tbody">
+                        
                     </tbody>
                   </table>
             </div>
-    </div>
-        
-    <div layout:fragment="modals">
-    	<div class="modal" id="save-shift-modal" tabindex="-1">
+            
+            <div class="modal" id="save-shift-modal" tabindex="-1">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Shift</h5>
+                  <h5 class="modal-title">Save Shift</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -91,28 +52,23 @@
                   <form>
                     
                     <div class="mb-3">
-                      <label for="checkedInHrs" class="form-label">Start Time</label>
-                      <input type="text" class="form-control" id="txt-checkedin-hrs" placeholder="Enter First Name">
-                    </div>
-  
-                    <div class="mb-3">
-                      <label for="checkedInHrs" class="form-label">End Time</label>
-                      <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Enter Last Name">
-                    </div>
+					  <label for="exampleFormControlInput1" class="form-label">Start Time</label>
+					  <input class="form-control timepicker" id="txt-start-time">
+					 </div>
+					 
+					 <div class="mb-3">
+					  <label for="exampleFormControlInput1" class="form-label">End Time</label>
+					  <input class="form-control timepicker" id="txt-end-time">
+					 </div>
 
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Role</label>
-                        <select class="form-select" aria-label="Default select example">
-                          <option selected>Select Role</option>
-                          <option value="1">Front Desk</option>
-                          <option value="2">Management</option>
-                          <option value="3">Floor Staff</option>
+                        <label for="exampleInputPassword1" class="form-label">Designation</label>
+                        <select id="select-role" class="form-select" aria-label="Default select example">
+                          <option selected value="0">Select Role</option>
+                          <option value="6">Front Desk</option>
+                          <option value="7">Supervisor</option>
+                          <option value="8">Manager</option>
                         </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="txt-approved-hrs" placeholder="Email Id">
                     </div>
                     
                   </form>
@@ -120,12 +76,15 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Submit</button>
+                  <button id="btn-save-shift" type="button" class="btn btn-primary">Save</button>
                 </div>
               </div>
             </div>
         </div>
-  	</div>
+    </div>
+    
+    
+        
   	
 </body>
 </html>

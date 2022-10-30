@@ -8,7 +8,7 @@
             <div class="clearfix mt-3">
                 <div class="float-start">
                     <button class="btn btn-success align-text-middle"><i class="fa-solid fa-upload"></i> Publish</button>
-                    <button class="btn btn-primary align-text-middle"><i class="fa-solid fa-calendar-check"></i> Auto Schedule</button>
+                    <button id="btn-auto-schedule" class="btn btn-primary align-text-middle"><i class="fa-solid fa-calendar-check"></i> Auto Schedule</button>
                 </div>
                 <div class="float-end">
                     
@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="float-end align-text-top">
-                        <span class="h2 align-top">October</span>
+                        <span class="h2 align-top">October - November</span>
                         <span class="h2 align-top"> 2022</span>
                     </div>
                 </div>
@@ -34,25 +34,25 @@
                           Resources
                         </th>
                         <th>
-                          Sun (16/10)
+                          Sun (30/10)
                         </th>
                         <th>
-                          Mon (17/10)
+                          Mon (31/10)
                         </th>
                         <th>
-                          Tue (18/10)
+                          Tue (1/11)
                         </th>
                         <th>
-                          Wed (19/10)
+                          Wed (2/11)
                         </th>
                         <th>
-                          Thur (20/10)
+                          Thur (3/11)
                         </th>
                         <th>
-                          Fri (21/10)
+                          Fri (4/11)
                         </th>
                         <th>
-                          Sat (22/10)
+                          Sat (5/11)
                         </th>
                       </tr>
                     </thead>
@@ -61,6 +61,85 @@
                     </tbody>
             	</table>
                 
+            </div>
+            
+            <div class="modal" id="add-open-shift-modal" tabindex="-1">
+            	<div class="modal-dialog">
+            		<div class="modal-content">
+            			<div class="modal-header">
+			                <h5 class="modal-title">Add Open Shift</h5>
+			                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			            </div>
+			            <div class="modal-body">
+
+                <form>
+                  
+                  
+                  <div>
+                  	  <div class="mb-3">
+                    	<label for="exampleInputPassword1" class="form-label">Role</label>
+	                    <select class="form-select" id="open-shift-select-positions" aria-label="Default select example">
+	                      <option selected value="0">Select Role</option>
+	                    </select>
+	                  </div>
+	
+	                  <div class="mb-3">
+	                    <label for="exampleInputPassword1" class="form-label">Shift Time</label>
+	                    <select class="form-select" id="open-shift-select-shift" aria-label="Default select example">
+	                      <option selected value="0">Select Time</option>
+	                      <option value="1">09:00am - 01:00pm</optsion>
+	                      <option value="2">01:00pm - 05:00pm</option>
+	                      <option value="3">09:00am - 01:00pm</option>
+	                    </select>
+	                  </div>
+	
+	                  <div class="mb-3">
+	                    <label for="exampleInputPassword1" class="form-label">Select Days</label>
+	                    <br>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="1">
+	                      <label class="form-check-label" for="inlineCheckbox1">Sun</label>
+	                    </div>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="2">
+	                      <label class="form-check-label" for="inlineCheckbox2">Mon</label>
+	                    </div>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="3">
+	                      <label class="form-check-label" for="inlineCheckbox3">Tue</label>
+	                    </div>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="4">
+	                      <label class="form-check-label" for="inlineCheckbox3">Wed</label>
+	                    </div>
+	                    <br>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="5">
+	                      <label class="form-check-label" for="inlineCheckbox3">Thurs</label>
+	                    </div>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="6">
+	                      <label class="form-check-label" for="inlineCheckbox3">Fri</label>
+	                    </div>
+	                    <div class="form-check form-check-inline">
+	                      <input class="form-check-input" type="checkbox" name="open-shift-weekDay" value="7">
+	                      <label class="form-check-label" for="inlineCheckbox3">Sat</label>
+	                    </div>
+	                  </div>
+                  </div>
+
+				 
+                  
+                </form>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn-save-open-shift">Submit</button>
+              </div>
+              
+            		</div>
+            	</div>
             </div>
         
         	<div class="modal" id="add-shift-modal" tabindex="-1">

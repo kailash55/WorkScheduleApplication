@@ -59,7 +59,7 @@ public class ShiftService {
 	public List<ShiftListResponseItem> getAllShifts()
 	{
 		Long organizationId = userService.getUsersOrganization().getId();
-		List<Shift> shiftEntityList = shiftRepo.findAllByOrganizationId(organizationId);
+		List<Shift> shiftEntityList = shiftRepo.findAllByOrganizationIdOrderByPositionId(organizationId);
 		List<ShiftListResponseItem> shiftListResponse = new ArrayList<ShiftListResponseItem>();
 		
 		for(Shift shift: shiftEntityList)
