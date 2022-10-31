@@ -4,7 +4,7 @@ $(document).ready(function(){
     })
     
     $("#btn-save-shift").click(function(){
-		saveShift()
+		saveShiftMaster()
 	})
     
     loadShiftsDropdown()
@@ -24,7 +24,7 @@ function openAddShiftModal()
 	 $("#save-shift-modal").modal('show')
 }
 
-function saveShift()
+function saveShiftMaster()
 {
 	$("#backdrop").show()
 	let formData = {

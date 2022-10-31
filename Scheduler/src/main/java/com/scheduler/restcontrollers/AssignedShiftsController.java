@@ -32,13 +32,13 @@ public class AssignedShiftsController {
 		}
 		catch(Exception e)
 		{
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-			String s = sw.toString();
-			sw.close();
-			pw.close();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage() +" : "+ s);
+//			StringWriter sw = new StringWriter();
+//			PrintWriter pw = new PrintWriter(sw);
+//			e.printStackTrace(pw);
+//			String s = sw.toString();
+//			sw.close();
+//			pw.close();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 	
