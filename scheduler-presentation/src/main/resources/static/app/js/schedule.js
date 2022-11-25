@@ -12,6 +12,7 @@ $(document).ready(function(){
     loadResourceData()
     loadPositionsDropdown()
     loadShifts()
+    loadEmpListDropdown()
     
     $('#select-positions').on('change', function() {
   		populateShiftForPositions(this.value, "select-shift")
@@ -228,6 +229,24 @@ function initEvents()
 	$(".availibility-icon").click(function(e){        
         resourceEditOnClick(parseInt($(e.currentTarget).data("empid")))
     })
+    
+    $(".assign-open-shift").click(function(e){
+		openAssignOpenShiftModal(parseInt($(e.currentTarget).data("id")), parseInt($(e.currentTarget).data("day")))
+	})
+}
+
+function openAssignOpenShiftModal(openShiftId, day)
+{
+	let openShiftData = resourcesData
+							.find(x=>x.empId==-1)
+							.weeklyAvailibilitySlots[day]
+							.assignedShifts
+							.find(z=>z.id==openShiftId)
+							
+	$("#hdn-open-shift-id").val(openShiftId)
+	$('select').val('0');
+	$("#assign-open-shift-modal").modal('show')
+	
 }
 
 function formatNumber(number)
@@ -288,6 +307,25 @@ function loadPositionsDropdown()
 	})
 }
 
+function loadEmpListDropdown()
+{
+	let token = Cookies.get('AUTH_TOKEN_COOKIE');
+	$.ajax({
+			url: window.serviceUrl +"employees",
+			type:"GET",
+			"headers": {"Authorization": "Bearer "+token},
+			contentType: "application/json; charset=utf-8",
+			success: function(response)
+			{
+				populateEmployeesDropdown(response)
+			},
+			error: function(a,b,c)
+			{
+				console.log(a)
+			}
+	})
+}
+
 function populateShiftForPositions(positionId, selectId)
 {
 	let positionShifts = shifts.filter(x=> x.positionId == positionId)
@@ -333,6 +371,16 @@ function populatePositionsDropdown(positions)
 		let positionHtml = '<option value="'+ position.id +'">' + position.name +'</option>'
 		$("#select-positions").append(positionHtml)
 		$("#open-shift-select-positions").append(positionHtml)
+	}
+}
+
+function populateEmployeesDropdown(employees)
+{
+	for(let i=0; i<employees.length; i++)
+	{
+		let employee = employees[i]
+		let employeeRowHtml = '<option value="'+ employee.id +'">' + employee.firstName +" "+ employee.lastName +'</option>'
+		$("#select-employee").append(employeeRowHtml)
 	}
 }
 
@@ -383,7 +431,7 @@ function renderOpenShiftRow(resource)
 			{
 				let shift = daySlots.assignedShifts[k]
                 
-                row += '<div class="shift assigned-shift-info">'
+                row += '<div class="shift assigned-shift-info assign-open-shift" data-id="'+shift.id+'" data-day="'+j+'">'
 	            			+ get12HrTime(shift.startTimeHour) + ":" +formatNumber(shift.startTimeMinute)
                             + getDayPeriod(shift.startTimeHour)
 							+ " - " 
