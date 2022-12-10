@@ -5,11 +5,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scheduler.apiPayloads.requests.AssignShiftRequest;
+import com.scheduler.apiPayloads.responses.EmployeeAssignedShiftResponse;
+import com.scheduler.apiPayloads.responses.EmployeeAvailabilityResponse;
+import com.scheduler.mappers.EmployeeAssignedShiftResponseMapper;
+import com.scheduler.mappers.EmployeeAvailabilityResponseMapper;
 import com.scheduler.models.AssignedShift;
 import com.scheduler.models.EmployeeAvailibility;
 import com.scheduler.models.Shift;
@@ -17,6 +22,7 @@ import com.scheduler.repository.AssignedShiftRepository;
 import com.scheduler.repository.EmployeeAvailabilityRepository;
 import com.scheduler.repository.EmployeeRepository;
 import com.scheduler.repository.ShiftRepository;
+import com.scheduler.util.date.DateUtil;
 import com.scheduler.util.date.WeekUtil;
 
 @Service
@@ -136,5 +142,15 @@ public class AssignedShiftService {
 			}
 		}
 		throw new Exception("Availability not found");
+	}
+
+	public List<EmployeeAssignedShiftResponse> getAssignedForEmployee(Long empId) {
+		Date currentDate = DateUtil.getCurrenDate();
+		
+		return assignedShiftRepository
+		.findByEmployeeIdAndDateGreaterThanEqual(empId, currentDate)
+		.stream()
+		.map(EmployeeAssignedShiftResponseMapper::map)
+		.collect(Collectors.toList());
 	}
 }

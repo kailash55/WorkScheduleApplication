@@ -1,5 +1,6 @@
 package com.scheduler.repository;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface AssignedShiftRepository extends JpaRepository<AssignedShift, Lo
 
 	public AssignedShift findByEmployeeIdAndShiftIdAndDate(Long empId, Long shiftId, Date date);
 	public List<AssignedShift> findAllByEmployeeIdAndDate(Long empId, Date date);
+	public List<AssignedShift> findByEmployeeIdAndDateGreaterThanEqual(Long empId, Date currentDate);
 }

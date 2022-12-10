@@ -25,10 +25,7 @@ function submitRegistrationRequest()
 		dataType : "json",
 		contentType: "application/json; charset=utf-8",
 		success: function(response){
-			if(response.success)
-			{
-				alert("success")
-			}
+			window.location.href = "/"
 		},
 		error: function(a,b,c)
 		{

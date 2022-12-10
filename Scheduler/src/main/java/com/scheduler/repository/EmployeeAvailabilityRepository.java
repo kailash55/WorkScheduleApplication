@@ -14,4 +14,5 @@ public interface EmployeeAvailabilityRepository extends JpaRepository<EmployeeAv
 
 	public List<EmployeeAvailibility> findByDateBewteen(Date startDate, Date endDate);
 	public List<EmployeeAvailibility> findByDateBetweenAndEmployeeId(Date startDate, Date endDate, Long empId);
+	public List<EmployeeAvailibility> findByEmployeeIdAndDateGreaterThanEqual(Long empId, Date fromDate);
 }
