@@ -3,16 +3,21 @@ package com.scheduler.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scheduler.apiPayloads.requests.EmployeeAvailabalityRequest;
+import com.scheduler.apiPayloads.responses.EmployeeAvailabilityResponse;
+import com.scheduler.mappers.EmployeeAvailabilityResponseMapper;
 import com.scheduler.models.Employee;
 import com.scheduler.models.EmployeeAvailibility;
 import com.scheduler.repository.EmployeeAvailabilityRepository;
 import com.scheduler.repository.EmployeeRepository;
 import com.scheduler.util.date.ConversionUtil;
+import com.scheduler.util.date.DateUtil;
 import com.scheduler.util.date.WeekUtil;
 
 @Service
@@ -61,6 +66,16 @@ public class EmployeeAvailabilityService {
 		return savedIds;
 	}
 
+	
+	public List<EmployeeAvailabilityResponse> getAvailabilityForEmployee(Long empId)
+	{
+		Date currentDate = DateUtil.getCurrenDate();
+		return employeeAvailabilityRepository
+		.findByEmployeeIdAndDateGreaterThanEqual(empId, currentDate)
+		.stream()
+		.map(EmployeeAvailabilityResponseMapper::getEmployeeAvailabilityResponse)
+		.collect(Collectors.toList());
+	}
 
 	private void validateIfAvailableHrsOverflowed(Date date, EmployeeAvailabalityRequest empAvailabilityRequest) throws Exception {
 		// TODO Auto-generated method stub
@@ -107,6 +122,11 @@ public class EmployeeAvailabilityService {
 				throw new Exception("Slot already exists");
 			}
 		}
+	}
+
+	public void deleteAvailability(Long availabilityId) {
+		// TODO Auto-generated method stub
+		employeeAvailabilityRepository.deleteById(availabilityId);
 	}
 
 }
