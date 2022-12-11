@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scheduler.apiPayloads.requests.EmployeeAddAvailabilityMobileRequest;
 import com.scheduler.apiPayloads.requests.EmployeeAvailabalityRequest;
 import com.scheduler.apiPayloads.responses.EmployeeAvailabilityResponse;
 import com.scheduler.mappers.EmployeeAvailabilityResponseMapper;
@@ -105,7 +106,7 @@ public class EmployeeAvailabilityService {
 		}
 	}
 
-
+ 
 	private void validateIfSlotAlreadyExist(Date date, EmployeeAvailabalityRequest empAvailabilityRequest) throws Exception {
 		// TODO Auto-generated method stub
 		List<EmployeeAvailibility> empAvailibilities =  employeeAvailabilityRepository.findByDateBetweenAndEmployeeId(date, date, empAvailabilityRequest.getEmployeeId());
@@ -127,6 +128,34 @@ public class EmployeeAvailabilityService {
 	public void deleteAvailability(Long availabilityId) {
 		// TODO Auto-generated method stub
 		employeeAvailabilityRepository.deleteById(availabilityId);
+	}
+
+
+	public List<Long> addEmployeeAvailabilityMobile(EmployeeAddAvailabilityMobileRequest empAvailabilityRequest) {
+		// TODO Auto-generated method stub
+		List<Long> savedIds = new ArrayList<Long>();
+		for(String strDate : empAvailabilityRequest.getDates())
+		{
+			Date date = ConversionUtil.fromStringToDate(strDate);
+			
+			EmployeeAvailibility empAvailability = new EmployeeAvailibility();
+			empAvailability.setDate(date);
+			empAvailability
+			.setEmployee(empRepo.getById(empAvailabilityRequest.getEmployeeId()));
+			empAvailability.setStartTimeHour(empAvailabilityRequest.getStartTimeHour());
+			empAvailability.setStartTimeMinute(empAvailabilityRequest.getStartTimeMinute());
+			empAvailability.setEndTimeHour(empAvailabilityRequest.getEndTimeHour());
+			empAvailability.setEndTimeMinute(empAvailabilityRequest.getEndTimeMinute());
+			empAvailability
+			.setEmployee(empRepo.getById(empAvailabilityRequest.getEmployeeId()));
+			organizationSpecificEntityService.setOrganizationSpecificFields(empAvailability);
+			empAvailability.setCreatedBy(userService.getLoggedInUser());
+			empAvailability.setCreatedDateTime(new Date());
+			
+			employeeAvailabilityRepository.save(empAvailability);
+			savedIds.add(empAvailability.getId());
+		}
+		return savedIds;
 	}
 
 }

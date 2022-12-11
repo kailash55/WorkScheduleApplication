@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scheduler.apiPayloads.requests.EmployeeAddAvailabilityMobileRequest;
 import com.scheduler.apiPayloads.requests.EmployeeAvailabalityRequest;
 import com.scheduler.services.EmployeeAvailabilityService;
 
@@ -31,6 +32,20 @@ public class EmployeeAvailabilityController {
 		try
 		{
 			List<Long> ids = employeeAvailabilityService.addEmployeeAvailability(employeeAvailabilityRequest);
+			return ResponseEntity.ok(ids);
+		}
+		catch(Exception e)
+		{
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@PostMapping("/mobile")
+	public ResponseEntity<?> addEmployeeAvailabilityMobile(@RequestBody EmployeeAddAvailabilityMobileRequest employeeAvailabilityRequest)
+	{
+		try
+		{
+			List<Long> ids = employeeAvailabilityService.addEmployeeAvailabilityMobile(employeeAvailabilityRequest);
 			return ResponseEntity.ok(ids);
 		}
 		catch(Exception e)
