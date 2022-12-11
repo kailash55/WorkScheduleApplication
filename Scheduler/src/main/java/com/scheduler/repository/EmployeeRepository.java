@@ -10,4 +10,5 @@ import com.scheduler.models.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	List<Employee> findAllByOrganizationId(Long organizationId);
+	Employee findByUserId(Long userId);
 }
