@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scheduler.apiPayloads.requests.LoginRequest;
 import com.scheduler.apiPayloads.responses.JwtResponse;
+import com.scheduler.models.Employee;
+import com.scheduler.repository.EmployeeRepository;
 import com.scheduler.services.UserDetailsImpl;
 import com.scheduler.util.jwt.JwtUtils;
 
@@ -27,6 +29,9 @@ public class LoginController{
 	
 	@Autowired
     AuthenticationManager authenticationManager;
+	
+	@Autowired
+	EmployeeRepository empRepo;
 	
 	@Autowired
     JwtUtils jwtUtils;
@@ -43,10 +48,14 @@ public class LoginController{
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+        
+        Employee emp = empRepo.findByUserId(userDetails.getId());
+        
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                emp == null ? null : emp.getId(),
                 roles));
 	}
 }
