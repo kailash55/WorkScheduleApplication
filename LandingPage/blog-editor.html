@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tiny.cloud/1/01sovz1byz2rhm56k560hva175xwesp6f4uy84e8comumskr/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script
+          src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+          crossorigin="anonymous">
+        </script>
+</head>
+<body>
+  <form>
+  Title:
+  <input type="text" id="blog-title">
+  <br>
+  <br>
+
+  
+  <textarea id="blog-content">
+    Welcome to TinyMCE!
+  </textarea>
+
+  <input type="button" value="Add Blog" onclick="addBlog()">
+  <input type="hidden" id="hdn-blog-id" value="0">
+  </form>
+  <script>
+    function getUrlVars()
+    {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    function loadBlog(blogId)
+    {
+        $.ajax({
+            url: "http://localhost:8085/"  + "blogs/"+blogId,
+            type:"GET",
+            contentType: "application/json; charset=utf-8",
+            success: function(response)
+            {
+              $("#hdn-blog-id").val(response.blogId)
+              $("#blog-title").val(response.title)
+              tinymce.activeEditor.setContent(response.body);
+            },
+            error: function(a,b,c)
+            {
+                console.log(a)
+            }
+        })
+    }
+
+    $(document).ready(function(){
+      
+    })
+    var tinym = tinymce.init({
+      selector: 'textarea',
+      plugins: 'save anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+      toolbar: 'save undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      mergetags_list: [
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
+      ],
+      setup: function (ed) {
+        ed.on('init', function(args) {
+            console.debug(args.target.id);
+            let vars = getUrlVars()
+            if(vars.length>0)
+            {
+              loadBlog(vars["id"])
+            }
+        });
+      } 
+    });
+
+    function addBlog()
+    {
+      
+      tinymce.activeEditor.save()
+        var formData = {
+            "title": $("#blog-title").val(),
+            "body": $("#blog-content").val(),
+        }
+        let blogId = parseInt($("#hdn-blog-id").val())
+        if(blogId>0)
+        {
+          $.ajax({
+            url: "http://localhost:8085/" + "blogs/"+blogId,
+            type:"PATCH",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(formData),
+            success: function(response)
+            {
+              alert("blog updated")
+            },
+            error: function(a,b,c)
+            {
+              alert("error occured")
+            }
+          })
+        }
+        else
+        {
+          $.ajax({
+          url: "http://localhost:8085/" + "blogs",
+          type:"POST",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify(formData),
+          success: function(response)
+          {
+            alert("blog added")
+          },
+          error: function(a,b,c)
+          {
+            alert("error occured")
+          }
+      })
+        }
+        
+    }
+  </script>
+</body>
+</html>

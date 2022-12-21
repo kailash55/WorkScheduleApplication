@@ -28,6 +28,13 @@ public class ConversionUtil {
 		return strDate;
 	}
 	
+	public static String toString_ddMMyyyyy(Date date)
+	{ 
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");  
+		String strDate = dateFormat.format(date); 
+		return strDate;
+	}
+	
 	public static LocalDate fromStringToLocalDate(String strDate)
 	{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
