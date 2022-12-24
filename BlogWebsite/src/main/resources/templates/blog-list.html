@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <script
+          src="https://code.jquery.com/jquery-3.6.1.min.js"
+          integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+          crossorigin="anonymous">
+        </script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+        <script src="assets/js/blog-list.js"></script>
+    </head>
+    <body>
+        <h3>Blog List</h3>
+        <br>
+        <a href="blog-editor">Write new blog!</a>
+        <br>
+        <br>
+
+        <table id="blog-list-table">
+            <thead>
+                <tr>
+                    <th>Blog Id</th>
+                    <th>Title</th>
+                    <th>Uploaded On</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="blog-list-table-body">
+
+            </tbody>
+        </table>
+
+        <script id="blog-list-row" type="text/x-jquery-tmpl">
+            <tr>
+                <td>${blogId}</td>
+                <td>${title}</td>
+                <td>${createdDate}</td>
+                <td><a href="blog-editor?id=${blogId}">Edit</a></td>
+            </tr>
+        </script>
+    </body>
+</html>
